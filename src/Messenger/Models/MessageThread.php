@@ -86,10 +86,11 @@ class MessageThread extends Model implements MessageThreadInterface
             ++$numberOfParticipants;
         }
 
-        return trans_choice('messenger::messenger.threads.title', $numberOfParticipants, [
-            'name' => $participants[0],
-            'count' => ($numberOfParticipants - 1), // substract one since we have shown the name.
-        ]);
+//        HC: Showing all users name in the thread title
+        $lastParticipant = array_pop($participants);
+        array_unshift($participants, 'You');
+
+        return implode(', ', $participants) . ' and ' . $lastParticipant;
     }
 
     /**
